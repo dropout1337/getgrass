@@ -111,23 +111,23 @@ async def connect_to_wss(socks5_proxy, user_id, mode):
                                      extra_headers=custom_headers) as websocket:
                 async def send_ping():
                     while True:
-                        if has_received_action:
-                            send_message = json.dumps(
-                                {"id": str(uuid.uuid5(uuid.NAMESPACE_DNS, socks5_proxy)), 
-                                 "version": "1.0.0", 
-                                 "action": "PING", 
-                                 "data": {}})
-                            
-                            colorful_log(
-                                proxy=socks5_proxy,  
-                                device_id=device_id, 
-                                message_type="SENDING PING", 
-                                message_content=send_message,
-                                is_sent=True,
-                                mode=mode
-                            )
-                            
-                            await websocket.send(send_message)
+                        # if has_received_action:
+                        send_message = json.dumps(
+                            {"id": str(uuid.uuid5(uuid.NAMESPACE_DNS, socks5_proxy)), 
+                                "version": "1.0.0", 
+                                "action": "PING", 
+                                "data": {}})
+                        
+                        colorful_log(
+                            proxy=socks5_proxy,  
+                            device_id=device_id, 
+                            message_type="SENDING PING", 
+                            message_content=send_message,
+                            is_sent=True,
+                            mode=mode
+                        )
+                        
+                        await websocket.send(send_message)
                         await asyncio.sleep(5)
 
                 await asyncio.sleep(1)
